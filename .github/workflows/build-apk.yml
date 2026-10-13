@@ -11,12 +11,21 @@ jobs:
       - name: Descarregar código
         uses: actions/checkout@v4
 
-      - name: Extrair projeto (app/) do ZIP
+      - name: Extrair pasta app/ do ZIP
         run: |
-          if [ -f guardiao-mobile-github.zip ]; then
-            unzip -o guardiao-mobile-github.zip -d .
+          if [ ! -d app ]; then
+            rm -rf /tmp/src && mkdir -p /tmp/src
+            unzip -q -o guardiao-mobile-github.zip -d /tmp/src
+            if [ -d /tmp/src/app ]; then
+              cp -r /tmp/src/app ./app
+            elif [ -d /tmp/src/guardiao-android/app ]; then
+              cp -r /tmp/src/guardiao-android/app ./app
+            else
+              echo "::error::O ZIP não contém a pasta app/"
+              exit 1
+            fi
           else
-            echo "Sem ZIP — a assumir que a pasta app/ já está no repositório"
+            echo "Pasta app/ já existe no repositório — a usar diretamente"
           fi
 
       - name: Instalar Java 17
