@@ -1,9 +1,5 @@
 name: Build APK
 
-# Compila o APK do Guardião Mobile automaticamente — não precisa de Android Studio.
-# Como usar: cria um repositório no GitHub, envia ESTA pasta (guardiao-android/)
-# como raiz do repositório, e o APK aparece em Actions → Build APK → Artifacts.
-
 on:
   push:
   workflow_dispatch:
